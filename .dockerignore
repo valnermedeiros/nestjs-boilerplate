@@ -1,0 +1,15 @@
+# Ignore everything
+**
+
+# Allow files and directories
+!/src/**
+!package.json
+!pnpm-lock.yaml
+!tsconfig.json
+!tsconfig.build.json
+!nest-cli.json
+!prisma/schema.prisma
+!.husky
+
+# Ignore test files
+/src/**.spec.ts

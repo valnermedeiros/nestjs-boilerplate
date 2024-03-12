@@ -1,0 +1,11 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "type": "shell",
+      "label": "nvm",
+      "args": ["use", "20.11.0"],
+      "command": ["nvm"]
+    }
+  ]
+}

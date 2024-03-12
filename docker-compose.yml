@@ -1,0 +1,11 @@
+services:
+  nestjs-boilerplate:
+    ports:
+      - '3000:3000'
+    restart: always
+    image: nestjs-boilerplate
+    build:
+      context: .
+      args:
+        #YOUR_ARGS: ${USE_SOME_ENV}
+      dockerfile: ./Dockerfile
