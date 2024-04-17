@@ -4,7 +4,7 @@
     {
       "type": "shell",
       "label": "nvm",
-      "args": ["use", "20.11.0"],
+      "args": ["use"],
       "command": ["nvm"]
     }
   ]
