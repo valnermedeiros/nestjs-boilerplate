@@ -33,7 +33,7 @@
     "@fastify/static": "^7.0.3",
     "@nestjs/cli": "10.3.2",
     "@nestjs/schematics": "^10.1.1",
-    "@nestjs/testing": "^10.3.7",
+    "@nestjs/testing": "^10.3.9",
     "@swc/cli": "^0.3.12",
     "@swc/core": "^1.4.15",
     "@tsconfig/node20": "^20.1.4",
