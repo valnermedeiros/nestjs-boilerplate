@@ -1,0 +1,33 @@
+name: Database Migration Deployment
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - prisma/migrations/** # Only run this workflow when migrations are updated
+    branches:
+      - main
+
+jobs:
+  deploy:
+    environment: ${{ github.ref_name }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+      - name: Get values from the package.json
+        id: packageJson
+        uses: RadovanPelka/github-action-json@main
+        with:
+          path: 'package.json'
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ fromJson(steps.packageJson.outputs.engines).node }}
+      - name: Enable corepack and pnpm
+        run: corepack enable && corepack prepare ${{ steps.packageJson.outputs.packageManager }} --activate
+      - name: Install dependencies
+        run: pnpm i --frozen-lockfile --ignore-scripts
+      - name: Apply all pending migrations to the database
+        run: pnpm prisma migrate deploy
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
