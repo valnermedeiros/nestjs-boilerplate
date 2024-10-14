@@ -1,25 +1,31 @@
-FROM node:20.12.1-alpine AS base
+FROM node:22.9.0-alpine AS base
 
 ARG PNPM_HOME="/pnpm"
 ARG PATH="$PNPM_HOME:$PATH"
 ARG HUSKY="0"
 
-RUN corepack enable
-COPY . /app
 WORKDIR /app
+COPY package.json pnpm-lock.yaml ./
 
-FROM base AS prod-deps
-ENV NODE_ENV="production"
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm i -P --frozen-lockfile --ignore-scripts
-RUN pnpx prisma generate
+RUN apk add --no-cache curl && \
+  export PNPM_VERSION=$(npm pkg get packageManager | tr -d '"') && \
+  corepack enable && \
+  corepack prepare "$PNPM_VERSION" --activate
+
+FROM base AS dependencies
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm i --frozen-lockfile --ignore-scripts
 
 FROM base AS build
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm i --frozen-lockfile
-RUN pnpm build
+COPY . .
+COPY --from=dependencies /app/node_modules ./node_modules
+RUN pnpm prisma generate && \
+  pnpm build && \
+  pnpm prune --prod --ignore-scripts
 
-FROM base
-COPY --from=prod-deps /app/node_modules /app/node_modules
-COPY --from=build /app/dist /app/dist
+FROM base AS deploy
+COPY --from=base /app/package.json /app/pnpm-lock.yaml ./
+COPY --from=build /app/node_modules ./node_modules
+COPY --from=build /app/dist ./dist
 
 EXPOSE 3000
 CMD [ "pnpm", "start:prod" ]
