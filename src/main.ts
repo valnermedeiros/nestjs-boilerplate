@@ -27,4 +27,4 @@ async function bootstrap() {
   app.useGlobalFilters(new GlobalExceptionFilter(app.get(HttpAdapterHost).httpAdapter));
   await app.listen(config.getOrThrow<number>(PORT) ?? 3000, '0.0.0.0');
 }
-bootstrap();
+bootstrap().catch(() => process.exit(1));
