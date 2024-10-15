@@ -1,26 +1,39 @@
 import eslint from '@eslint/js';
 import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
+import globals from 'globals';
 import tseslint from 'typescript-eslint';
 
 export default tseslint.config(
+  { files: ['**/*.{js,mjs,cjs,ts}'] },
+  { files: ['**/*.js'], languageOptions: { sourceType: 'commonjs' } },
   eslint.configs.recommended,
   ...tseslint.configs.recommended,
   ...tseslint.configs.recommendedTypeChecked,
   eslintPluginPrettierRecommended,
   {
-    ignores: ['**/dist/*', '**/node_modules/*', '**/*.env', '**/pnpm-lock.yaml', '**/*.sql']
+    ignores: [
+      '**/dist/*',
+      '**/node_modules/*',
+      '**/*.env',
+      '**/pnpm-lock.yaml',
+      '**/*.sql',
+      'eslint.config.mjs'
+    ]
   },
   {
     languageOptions: {
       ecmaVersion: 'latest',
-      sourceType: 'module',
+      sourceType: 'commonjs',
 
       parserOptions: {
         projectService: true,
         tsconfigRootDir: import.meta.dirname
-      }
-    },
+      },
 
+      globals: { ...globals.node, ...globals.jest }
+    }
+  },
+  {
     rules: {
       'prettier/prettier': 'error',
       '@typescript-eslint/interface-name-prefix': 'off',

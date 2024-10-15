@@ -38,7 +38,7 @@ export class HealthController {
         this.http.responseCheck<{ status: string }>(
           'some external app or service',
           'https://exemple.com/health',
-          (res) => res.status === HttpStatus.OK && res.data.status === 'UP'
+          (res) => res.status === HttpStatus.OK.valueOf() && res.data.status === 'UP'
         )
     ]);
   }
