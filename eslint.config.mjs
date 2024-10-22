@@ -30,7 +30,7 @@ export default tseslint.config(
         tsconfigRootDir: import.meta.dirname
       },
 
-      globals: { ...globals.node, ...globals.jest }
+      globals: { ...globals.node, ...globals.jest, ...globals.es2024 }
     }
   },
   {
@@ -53,6 +53,21 @@ export default tseslint.config(
       '@typescript-eslint/naming-convention': [
         'error',
         {
+          selector: [
+            'classProperty',
+            'objectLiteralProperty',
+            'typeProperty',
+            'classMethod',
+            'objectLiteralMethod',
+            'typeMethod',
+            'accessor',
+            'enumMember',
+            'property'
+          ],
+          format: null,
+          modifiers: ['requiresQuotes']
+        },
+        {
           selector: 'default',
           format: ['camelCase']
         },
@@ -62,7 +77,7 @@ export default tseslint.config(
         },
         {
           selector: 'variable',
-          format: ['camelCase', 'snake_case', 'StrictPascalCase']
+          format: ['camelCase', 'snake_case', 'StrictPascalCase', 'UPPER_CASE']
         },
         {
           selector: 'function',
@@ -84,22 +99,6 @@ export default tseslint.config(
         {
           selector: 'enumMember',
           format: ['UPPER_CASE']
-        },
-        {
-          selector: [
-            'classProperty',
-            'objectLiteralProperty',
-            'typeProperty',
-            'classMethod',
-            'objectLiteralMethod',
-            'typeMethod',
-            'accessor',
-            'enumMember',
-            'property'
-          ],
-
-          format: null,
-          modifiers: ['requiresQuotes']
         },
         {
           selector: ['property', 'parameter'],

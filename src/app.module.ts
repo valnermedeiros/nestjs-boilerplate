@@ -8,6 +8,7 @@ import { Module, RequestMethod } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { ScheduleModule } from '@nestjs/schedule';
 import { LoggerModule } from 'nestjs-pino';
+import { env } from 'process';
 
 @Module({
   imports: [
@@ -18,8 +19,8 @@ import { LoggerModule } from 'nestjs-pino';
     }),
     LoggerModule.forRoot({
       pinoHttp: {
-        level: process.env.NODE_ENV !== 'production' ? 'debug' : 'info',
-        transport: process.env.NODE_ENV !== 'production' ? { target: 'pino-pretty' } : undefined
+        level: env.NODE_ENV !== 'production' ? 'debug' : 'info',
+        transport: env.NODE_ENV !== 'production' ? { target: 'pino-pretty' } : undefined
       },
       forRoutes: ['*'],
       exclude: [{ method: RequestMethod.ALL, path: 'health' }]

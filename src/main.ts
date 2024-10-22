@@ -25,6 +25,9 @@ async function bootstrap() {
   app.enableCors();
   app.useLogger(app.get(Logger));
   app.useGlobalFilters(new GlobalExceptionFilter(app.get(HttpAdapterHost).httpAdapter));
-  await app.listen(config.getOrThrow<number>(PORT) ?? 3000, '0.0.0.0');
+
+  await app.listen({ port: config.getOrThrow<number>(PORT) });
 }
-bootstrap().catch(() => process.exit(1));
+bootstrap().catch((e: Error) => {
+  return process.exit(e.message);
+});

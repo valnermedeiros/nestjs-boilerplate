@@ -1,22 +1,21 @@
 import { AppModule } from '@/app.module';
-import { INestApplication } from '@nestjs/common';
+import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
 import { Test, TestingModule } from '@nestjs/testing';
 import supertest from 'supertest';
 
 describe('AppController (e2e)', () => {
-  let app: INestApplication;
-
-  beforeEach(async () => {
+  let app: NestFastifyApplication;
+  beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule]
     }).compile();
 
-    app = moduleFixture.createNestApplication();
+    app = moduleFixture.createNestApplication<NestFastifyApplication>(new FastifyAdapter());
     await app.init();
+    await app.getHttpAdapter().getInstance().ready();
   });
 
   it('/ (GET)', () => {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     return supertest(app.getHttpServer()).get('/').expect(200).expect('Hello World!');
   });
 });

@@ -1,51 +1,63 @@
-/* eslint-disable @typescript-eslint/naming-convention */
-import { plainToInstance } from 'class-transformer';
+import { Expose, plainToInstance, Type } from 'class-transformer';
 import {
-  IsBoolean,
   IsDefined,
   IsEnum,
-  IsNumber,
   IsOptional,
-  IsUrl,
+  IsString,
+  Matches,
   Max,
   Min,
   validateSync
 } from 'class-validator';
+import 'reflect-metadata';
 
 enum Environment {
-  development = 'development',
-  staging = 'staging',
-  production = 'production',
-  test = 'test',
-  provision = 'provision'
+  DEVELOPMENT = 'development',
+  STAGING = 'staging',
+  PRODUCTION = 'production',
+  TEST = 'test',
+  PROVISION = 'provision'
 }
 
 class EnvironmentVariables {
-  @IsDefined()
-  @IsEnum(Environment)
-  NODE_ENV!: Environment;
-
+  @Expose({ name: 'NODE_ENV' })
   @IsOptional()
-  @IsNumber()
+  @IsEnum(Environment)
+  nodeEnv!: Environment;
+
+  @Expose({ name: 'PORT' })
+  @IsOptional()
+  @Type(() => Number)
   @Min(0)
   @Max(65535)
-  PORT!: number;
+  port!: number;
 
-  @IsUrl({
-    protocols: ['postgresql'],
-    require_port: true
-  })
+  @Expose({ name: 'DATABASE_URL' })
+  @IsString()
+  @Matches(
+    /^(postgresql|mysql|mariadb|sqlite|sqlserver|mongodb):\/\/(?:([\w._-]+)(?::([\w._-]+))?@)?([\w.-]+)(?::(\d+))?(?:\/([\w._-]+))?(?:\?(.*))?$/
+  )
   @IsDefined()
-  DATABASE_URL!: string;
+  databaseUrl!: string;
 
-  @IsDefined()
-  @IsBoolean()
-  SWAGGER_DOCS!: boolean;
+  @Expose({ name: 'SWAGGER_DOCS' })
+  @IsOptional()
+  @Type(() => Boolean)
+  swaggerDocs!: boolean;
+
+  constructor(partial: Partial<EnvironmentVariables>) {
+    Object.assign(this, partial);
+    this.port = this.port || 3000;
+    this.swaggerDocs = this.swaggerDocs || false;
+    this.nodeEnv = this.nodeEnv || Environment.DEVELOPMENT;
+    this.databaseUrl =
+      this.databaseUrl || 'postgresql://postgres:postgres@localhost:5433/postgres?schema=public';
+  }
 }
 
 export function validateEnvironmentVariables(config: Record<string, unknown>) {
   const validatedConfig = plainToInstance(EnvironmentVariables, config, {
-    enableImplicitConversion: true
+    strategy: 'excludeAll'
   });
   const errors = validateSync(validatedConfig, { skipMissingProperties: false });
   if (errors.length > 0) {

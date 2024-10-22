@@ -1,11 +1,19 @@
 services:
-  nestjs-boilerplate:
+  database:
+    image: 'postgres:latest'
     ports:
-      - '3000:3000'
-    restart: always
-    image: nestjs-boilerplate
-    build:
-      context: .
-      args:
-        #YOUR_ARGS: ${USE_SOME_ENV}
-      dockerfile: ./Dockerfile
+      - 5433:5432
+    environment:
+      POSTGRES_USER: postgres # The PostgreSQL user (useful to connect to the database)
+      POSTGRES_PASSWORD: postgres # The PostgreSQL password (useful to connect to the database)
+      POSTGRES_DB: postgres # The PostgreSQL default database (automatically created at first launch)
+  # nestjs-boilerplate:
+  #   ports:
+  #     - '3000:3000'
+  #   restart: always
+  #   image: nestjs-boilerplate
+  #   build:
+  #     context: .
+  #     args:
+  #       #YOUR_ARGS: ${USE_SOME_ENV}
+  #     dockerfile: ./Dockerfile
