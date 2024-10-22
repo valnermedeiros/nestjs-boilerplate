@@ -11,9 +11,7 @@ import {
   PrismaHealthIndicator
 } from '@nestjs/terminus';
 
-//Start of Swagger Documentation
 @ApiTags('health')
-//End of Swagger Documentation
 @Controller('health')
 export class HealthController {
   constructor(
