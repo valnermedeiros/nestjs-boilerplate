@@ -35,7 +35,7 @@
     "@fastify/static": "^7.0.4",
     "@nestjs/cli": "10.4.5",
     "@nestjs/schematics": "^10.2.2",
-    "@nestjs/testing": "^10.4.5",
+    "@nestjs/testing": "^10.4.12",
     "@swc/cli": "0.4.1-nightly.20240914",
     "@swc/core": "^1.7.36",
     "@tsconfig/node22": "^22.0.0",
