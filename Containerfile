@@ -1,4 +1,4 @@
-FROM node:22.9.0-alpine AS base
+FROM node:22.12.0-alpine AS base
 
 ARG PNPM_HOME="/pnpm"
 ARG PATH="$PNPM_HOME:$PATH"

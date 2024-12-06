@@ -28,6 +28,4 @@ async function bootstrap() {
 
   await app.listen({ port: config.getOrThrow<number>(PORT) });
 }
-bootstrap().catch((e: Error) => {
-  return process.exit(e.message);
-});
+void bootstrap();

@@ -19,5 +19,5 @@
       "@test/*": ["./test/*"]
     }
   },
-  "include": ["src/**/*", "test/**/*", "eslint.config.mjs"]
+  "include": ["src/**/*", "test/**/*", "eslint.config.mjs", "prisma/seeds/**/*"]
 }

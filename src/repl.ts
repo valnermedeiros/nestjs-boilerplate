@@ -5,4 +5,4 @@ async function bootstrap() {
   await repl(AppModule);
 }
 
-bootstrap().catch(() => process.exit(1));
+void bootstrap();

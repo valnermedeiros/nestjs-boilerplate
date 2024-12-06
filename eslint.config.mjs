@@ -12,25 +12,23 @@ export default tseslint.config(
   eslintPluginPrettierRecommended,
   {
     ignores: [
+      'eslint.config.mjs',
       '**/dist/*',
       '**/node_modules/*',
-      '**/*.env',
       '**/pnpm-lock.yaml',
       '**/*.sql',
-      'eslint.config.mjs'
+      '**/*.env'
     ]
   },
   {
     languageOptions: {
       ecmaVersion: 'latest',
       sourceType: 'commonjs',
-
       parserOptions: {
         projectService: true,
         tsconfigRootDir: import.meta.dirname
       },
-
-      globals: { ...globals.node, ...globals.jest, ...globals.es2024 }
+      globals: { ...globals.node, ...globals.jest, ...globals.es2023, ...globals.typescript }
     }
   },
   {
