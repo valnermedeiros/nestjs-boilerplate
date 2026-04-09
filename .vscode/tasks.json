@@ -3,9 +3,11 @@
   "tasks": [
     {
       "type": "shell",
-      "label": "nvm",
-      "args": ["use"],
-      "command": ["nvm"]
+      "label": "fnm",
+      "command": "eval \"$(fnm env)\"",
+      "presentation": {
+        "reveal": "silent"
+      }
     }
   ]
 }

@@ -15,7 +15,7 @@
       "envFile": "${workspaceFolder}/.env",
       "cwd": "${workspaceRoot}",
       "console": "integratedTerminal",
-      "preLaunchTask": "nvm"
+      "preLaunchTask": "fnm"
     }
   ]
 }
