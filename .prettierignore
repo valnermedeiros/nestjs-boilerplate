@@ -1,6 +1,0 @@
-**/dist/*
-**/node_modules/*
-*.env
-.eslintrc.js
-pnpm-lock.yaml
-*.sql
