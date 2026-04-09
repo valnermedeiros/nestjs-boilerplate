@@ -9,7 +9,6 @@
     "sourceMap": true,
     "outDir": "./dist",
     "baseUrl": "./",
-    "incremental": true,
     "strictNullChecks": true,
     "noImplicitAny": true,
     "strictBindCallApply": true,
@@ -19,8 +18,7 @@
     "paths": {
       "@src/*": ["./src/*"],
       "@test/*": ["./test/*"]
-    },
-    "rootDir": "./src"
+    }
   },
   "include": ["src/**/*", "test/**/*", "eslint.config.mjs"]
 }

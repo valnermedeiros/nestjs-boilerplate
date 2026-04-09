@@ -11,28 +11,28 @@ enum Environment {
 }
 
 class EnvironmentVariables {
-  @Expose({ name: "NODE_ENV" })
+  @Expose()
   @IsOptional()
   @IsEnum(Environment)
-  nodeEnv!: Environment;
+  NODE_ENV!: Environment;
 
-  @Expose({ name: "PORT" })
+  @Expose()
   @IsOptional()
   @Type(() => Number)
   @Min(0)
   @Max(65535)
-  port!: number;
+  PORT!: number;
 
-  @Expose({ name: "SWAGGER_DOCS" })
+  @Expose()
   @IsOptional()
   @Type(() => Boolean)
-  swaggerDocs!: boolean;
+  SWAGGER_DOCS!: boolean;
 
   constructor(partial: Partial<EnvironmentVariables>) {
     Object.assign(this, partial);
-    this.port = this.port || 3000;
-    this.swaggerDocs = this.swaggerDocs || false;
-    this.nodeEnv = this.nodeEnv || Environment.DEVELOPMENT;
+    this.PORT = this.PORT || 3000;
+    this.SWAGGER_DOCS = this.SWAGGER_DOCS || false;
+    this.NODE_ENV = this.NODE_ENV || Environment.DEVELOPMENT;
   }
 }
 

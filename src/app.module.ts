@@ -1,13 +1,13 @@
+import { Module, RequestMethod } from "@nestjs/common";
+import { ConfigModule, ConfigService } from "@nestjs/config";
+import { ScheduleModule } from "@nestjs/schedule";
 import { AppController } from "@src/app.controller";
 import { AppService } from "@src/app.service";
 import { CommonModule } from "@src/common/common.module";
+import { NODE_ENV } from "@src/common/constants/config.const";
 import { validateEnvironmentVariables } from "@src/common/helper/env.validation";
 import { HealthModule } from "@src/health/health.module";
-import { Module, RequestMethod } from "@nestjs/common";
-import { ConfigModule } from "@nestjs/config";
-import { ScheduleModule } from "@nestjs/schedule";
 import { LoggerModule } from "nestjs-pino";
-import { env } from "process";
 
 @Module({
   imports: [
@@ -16,14 +16,19 @@ import { env } from "process";
       isGlobal: true,
       cache: true,
     }),
-    LoggerModule.forRoot({
-      pinoHttp: {
-        level: env.NODE_ENV !== "production" ? "debug" : "info",
-        transport:
-          env.NODE_ENV !== "production" ? { target: "pino-pretty" } : undefined,
+    LoggerModule.forRootAsync({
+      inject: [ConfigService],
+      useFactory: (config: ConfigService) => {
+        const isProd = config.get<string>(NODE_ENV) === "production";
+        return {
+          pinoHttp: {
+            level: isProd ? "info" : "debug",
+            transport: isProd ? undefined : { target: "pino-pretty" },
+          },
+          forRoutes: [{ path: "*", method: RequestMethod.ALL }],
+          exclude: [{ method: RequestMethod.ALL, path: "/health" }],
+        };
       },
-      forRoutes: ["*"],
-      exclude: [{ method: RequestMethod.ALL, path: "health" }],
     }),
     ScheduleModule.forRoot(),
     CommonModule,
