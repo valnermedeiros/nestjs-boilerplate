@@ -2,7 +2,10 @@
  * Async step function for Allure steps within tests
  * Usage: await step('Given: ...', async () => { ... })
  */
-export async function step<T>(description: string, fn: () => T | Promise<T>): Promise<T> {
+export async function step<T>(
+  description: string,
+  fn: () => T | Promise<T>,
+): Promise<T> {
   console.log(`[STEP] ${description}`);
   return fn();
 }

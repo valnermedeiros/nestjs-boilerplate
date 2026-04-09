@@ -1,29 +1,29 @@
-import { Expose, plainToInstance, Type } from 'class-transformer';
-import { IsEnum, IsOptional, Max, Min, validateSync } from 'class-validator';
-import 'reflect-metadata';
+import { Expose, plainToInstance, Type } from "class-transformer";
+import { IsEnum, IsOptional, Max, Min, validateSync } from "class-validator";
+import "reflect-metadata";
 
 enum Environment {
-  DEVELOPMENT = 'development',
-  STAGING = 'staging',
-  PRODUCTION = 'production',
-  TEST = 'test',
-  PROVISION = 'provision'
+  DEVELOPMENT = "development",
+  STAGING = "staging",
+  PRODUCTION = "production",
+  TEST = "test",
+  PROVISION = "provision",
 }
 
 class EnvironmentVariables {
-  @Expose({ name: 'NODE_ENV' })
+  @Expose({ name: "NODE_ENV" })
   @IsOptional()
   @IsEnum(Environment)
   nodeEnv!: Environment;
 
-  @Expose({ name: 'PORT' })
+  @Expose({ name: "PORT" })
   @IsOptional()
   @Type(() => Number)
   @Min(0)
   @Max(65535)
   port!: number;
 
-  @Expose({ name: 'SWAGGER_DOCS' })
+  @Expose({ name: "SWAGGER_DOCS" })
   @IsOptional()
   @Type(() => Boolean)
   swaggerDocs!: boolean;
@@ -38,9 +38,11 @@ class EnvironmentVariables {
 
 export function validateEnvironmentVariables(config: Record<string, unknown>) {
   const validatedConfig = plainToInstance(EnvironmentVariables, config, {
-    strategy: 'excludeAll'
+    strategy: "excludeAll",
   });
-  const errors = validateSync(validatedConfig, { skipMissingProperties: false });
+  const errors = validateSync(validatedConfig, {
+    skipMissingProperties: false,
+  });
   if (errors.length > 0) {
     throw new Error(errors.toString());
   }

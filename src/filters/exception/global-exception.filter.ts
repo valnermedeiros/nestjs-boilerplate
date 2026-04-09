@@ -1,5 +1,11 @@
-import { ArgumentsHost, Catch, HttpException, HttpServer, HttpStatus } from '@nestjs/common';
-import { AbstractHttpAdapter, BaseExceptionFilter } from '@nestjs/core';
+import {
+  ArgumentsHost,
+  Catch,
+  HttpException,
+  HttpServer,
+  HttpStatus,
+} from "@nestjs/common";
+import { AbstractHttpAdapter, BaseExceptionFilter } from "@nestjs/core";
 
 @Catch()
 export class GlobalExceptionFilter extends BaseExceptionFilter {
@@ -13,11 +19,11 @@ export class GlobalExceptionFilter extends BaseExceptionFilter {
     host: ArgumentsHost,
     applicationRef:
       | HttpServer<unknown, unknown, unknown>
-      | AbstractHttpAdapter<unknown, unknown, unknown>
+      | AbstractHttpAdapter<unknown, unknown, unknown>,
   ): void {
     const err = {
       statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
-      message: this.getExceptionMessage(exception)
+      message: this.getExceptionMessage(exception),
     };
     super.handleUnknownError(err, host, applicationRef);
   }
