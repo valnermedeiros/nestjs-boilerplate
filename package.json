@@ -37,10 +37,10 @@
     "@swc/cli": "0.8.1",
     "@swc/core": "^1.15.24",
     "@tsconfig/node24": "^24.0.4",
-    "@types/jest": "^30.0.0",
     "@types/node": "^25.5.2",
-    "@types/supertest": "^7.2.0",
     "@types/uuid": "^11.0.0",
+    "@vitest/coverage-v8": "^2.1.8",
+    "@vitest/ui": "^2.1.8",
     "commitizen": "^4.3.1",
     "cz-conventional-changelog": "^3.3.0",
     "eslint": "^10.0.0",
@@ -48,42 +48,20 @@
     "eslint-plugin-prettier": "^5.5.5",
     "globals": "^17.4.0",
     "husky": "^9.1.7",
-    "jest": "^30.3.0",
     "lint-staged": "^16.4.0",
     "prettier": "^3.8.1",
     "source-map-support": "^0.5.21",
-    "supertest": "^7.2.2",
-    "ts-jest": "^29.4.9",
     "ts-loader": "^9.5.7",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^6.0.2",
-    "typescript-eslint": "^8.58.0"
+    "typescript-eslint": "^8.58.0",
+    "vitest": "^2.1.8",
+    "allure-vitest": "^2.1.5",
+    "allure-commandline": "^2.30.0"
   },
   "engines": {
     "node": ">=24.0.0"
-  },
-  "jest": {
-    "collectCoverageFrom": [
-      "**/*.(t|j)s"
-    ],
-    "coverageDirectory": "../../coverage",
-    "moduleFileExtensions": [
-      "js",
-      "json",
-      "ts"
-    ],
-    "moduleNameMapper": {
-      "^@/(.*)$": "<rootDir>/src/$1",
-      "^@test/(.*)$": "<rootDir>/test/$1"
-    },
-    "preset": "ts-jest",
-    "rootDir": "./",
-    "testEnvironment": "node",
-    "testRegex": ".*\\.spec\\.ts$",
-    "transform": {
-      "^.+\\.(t|j)s$": "ts-jest"
-    }
   },
   "license": "UNLICENSED",
   "lint-staged": {
@@ -106,11 +84,14 @@
     "start:dev": "nest start --watch",
     "start:prod": "node dist/main",
     "start:repl": "nest start --watch --entryFile repl",
-    "test": "jest",
-    "test:cov": "jest --coverage",
-    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json",
-    "test:watch": "jest --watch"
+    "test": "vitest run",
+    "test:cov": "vitest run --coverage",
+    "test:debug": "vitest --inspect-brk --inspect --single-thread",
+    "test:e2e": "vitest run --config vitest.e2e.config.ts",
+    "test:watch": "vitest",
+    "test:ui": "vitest --ui",
+    "test:allure": "allure generate --clean",
+    "test:allure:report": "allure serve"
   },
   "version": "1.0.0"
 }

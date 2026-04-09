@@ -18,6 +18,8 @@ lerna-debug.log*
 # Tests
 /coverage
 /.nyc_output
+/allure-results
+/allure-report
 
 # IDEs and editors
 /.idea

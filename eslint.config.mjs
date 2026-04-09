@@ -7,8 +7,7 @@ export default tseslint.config(
   { files: ['**/*.{js,mjs,cjs,ts}'] },
   { files: ['**/*.js'], languageOptions: { sourceType: 'commonjs' } },
   eslint.configs.recommended,
-  ...tseslint.configs.recommended,
-  ...tseslint.configs.recommendedTypeChecked,
+  tseslint.configs.recommendedTypeChecked,
   eslintPluginPrettierRecommended,
   {
     ignores: [
@@ -28,7 +27,7 @@ export default tseslint.config(
         projectService: true,
         tsconfigRootDir: import.meta.dirname
       },
-      globals: { ...globals.node, ...globals.jest, ...globals.es2023, ...globals.typescript }
+      globals: { ...globals.node, ...globals.vitest, ...globals.es2025 }
     }
   },
   {

@@ -3,15 +3,17 @@ import { AbstractHttpAdapter, BaseExceptionFilter } from '@nestjs/core';
 
 @Catch()
 export class GlobalExceptionFilter extends BaseExceptionFilter {
-  catch(exception: any, host: ArgumentsHost): void {
+  catch(exception: unknown, host: ArgumentsHost): void {
     // handle the exception your own way
     super.catch(exception, host);
   }
 
   handleUnknownError(
-    exception: any,
+    exception: unknown,
     host: ArgumentsHost,
-    applicationRef: HttpServer<any, any, any> | AbstractHttpAdapter<any, any, any>
+    applicationRef:
+      | HttpServer<unknown, unknown, unknown>
+      | AbstractHttpAdapter<unknown, unknown, unknown>
   ): void {
     const err = {
       statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
@@ -20,7 +22,7 @@ export class GlobalExceptionFilter extends BaseExceptionFilter {
     super.handleUnknownError(err, host, applicationRef);
   }
 
-  getExceptionMessage = (exception: any) => {
+  getExceptionMessage = (exception: unknown) => {
     if (exception instanceof HttpException) {
       return exception?.getResponse();
     }

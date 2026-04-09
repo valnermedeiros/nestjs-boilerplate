@@ -15,11 +15,12 @@
     "strictBindCallApply": true,
     "noFallthroughCasesInSwitch": true,
     "ignoreDeprecations": "6.0",
-    "types": ["node", "jest"],
+    "types": ["node", "vitest/globals"],
     "paths": {
       "@/*": ["./src/*"],
       "@test/*": ["./test/*"]
-    }
+    },
+    "rootDir": "./src"
   },
-  "include": ["src/**/*", "test/**/*", "eslint.config.mjs", "prisma.config.ts", "prisma/seeds/**/*"]
+  "include": ["src/**/*", "test/**/*", "eslint.config.mjs"]
 }
