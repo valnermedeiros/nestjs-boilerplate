@@ -1,9 +1,10 @@
 import eslint from '@eslint/js';
 import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
 import globals from 'globals';
+import { defineConfig } from 'eslint/config';
 import tseslint from 'typescript-eslint';
 
-export default tseslint.config(
+export default defineConfig([
   { files: ['**/*.{js,mjs,cjs,ts}'] },
   { files: ['**/*.js'], languageOptions: { sourceType: 'commonjs' } },
   eslint.configs.recommended,
@@ -20,4 +21,4 @@ export default tseslint.config(
       globals: { ...globals.node, ...globals.vitest, ...globals.es2025 }
     }
   }
-);
+]);
