@@ -1,59 +1,125 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# NestJS Boilerplate
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+A production-ready NestJS boilerplate with Fastify, Vitest, Allure reporting, and strict tooling.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Stack
 
-## Description
+| Layer | Technology |
+|---|---|
+| Framework | [NestJS](https://nestjs.com) + [Fastify](https://fastify.dev) |
+| Language | TypeScript (strict mode) |
+| Testing | [Vitest](https://vitest.dev) + [Allure](https://allurereport.org) |
+| Linting | ESLint + Prettier (via plugin) |
+| Commits | [Conventional Commits](https://www.conventionalcommits.org) + commitlint |
+| Node | >=24 managed via [fnm](https://github.com/Schniz/fnm) |
+| Package manager | pnpm |
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Prerequisites
 
-## Installation
+- [fnm](https://github.com/Schniz/fnm) — Node version manager
+- Node 24+ (`fnm install 24`)
+- pnpm (`npm i -g pnpm`)
+
+## Getting Started
 
 ```bash
-$ pnpm install
+# install dependencies
+pnpm install
+
+# start in watch mode
+pnpm start:dev
+
+# build for production
+pnpm build
+
+# start production build
+pnpm start:prod
 ```
 
-## Running the app
+## Testing
+
+Tests use Vitest with a BDD-style Given / When / Then structure via inline `step()` calls. Results are reported to Allure.
 
 ```bash
-# development
-$ pnpm run start
+# unit & integration tests
+pnpm test
 
 # watch mode
-$ pnpm run start:dev
-
-# production mode
-$ pnpm run start:prod
-```
-
-## Test
-
-```bash
-# unit tests
-$ pnpm run test
+pnpm test:watch
 
 # e2e tests
-$ pnpm run test:e2e
+pnpm test:e2e
 
-# test coverage
-$ pnpm run test:cov
+# coverage report
+pnpm test:cov
+
+# vitest ui
+pnpm test:ui
+
+# generate allure report
+pnpm test:allure
+
+# serve allure report
+pnpm test:allure:report
 ```
+
+### Test Structure
+
+```typescript
+it("should do something", async () => {
+  await step("Given: precondition", async () => { ... });
+  await step("When: action is performed", async () => { ... });
+  await step("Then: result matches expectation", () => { ... });
+});
+```
+
+## Linting
+
+ESLint handles both linting and formatting (via `eslint-plugin-prettier`).
+
+```bash
+pnpm lint
+```
+
+The pre-commit hook runs lint automatically on staged `src/**/*` files.
+
+## Commits
+
+Commit messages must follow [Conventional Commits](https://www.conventionalcommits.org):
+
+```
+feat: add user authentication
+fix: resolve token expiry issue
+chore: update dependencies
+refactor: simplify health controller
+```
+
+Use `pnpm commit` (commitizen) for an interactive prompt.
+
+## Project Structure
+
+```
+src/
+├── common/           # shared helpers, constants, modules
+│   ├── constants/
+│   └── helper/
+├── filters/          # global exception filters
+│   └── exception/
+├── health/           # health check endpoint (/health)
+├── app.controller.ts
+├── app.module.ts
+└── app.service.ts
+test/
+├── bdd.utils.ts      # Given/When/Then step helper
+└── app.e2e-spec.ts
+```
+
+## Environment Variables
+
+| Variable | Description | Default |
+|---|---|---|
+| `NODE_ENV` | Environment | `development` |
+| `PORT` | HTTP port | `3000` |
+| `SWAGGER_DOCS` | Enable Swagger UI | `false` |
+
+Copy `.env.test.local` as `.env` for local overrides.
