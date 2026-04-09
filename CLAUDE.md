@@ -81,8 +81,7 @@ it('should do something', async () => {
 ```bash
 pnpm build              # compile with nest build
 pnpm start:dev          # watch mode
-pnpm lint               # eslint --fix
-pnpm format             # prettier
+pnpm lint               # eslint --fix (also formats via prettier plugin)
 pnpm test               # vitest run (unit)
 pnpm test:watch         # vitest watch
 pnpm test:e2e           # vitest e2e
