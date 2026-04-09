@@ -10,103 +10,14 @@ export default tseslint.config(
   tseslint.configs.recommendedTypeChecked,
   eslintPluginPrettierRecommended,
   {
-    ignores: [
-      'eslint.config.mjs',
-      '**/dist/*',
-      '**/node_modules/*',
-      '**/pnpm-lock.yaml',
-      '**/*.sql',
-      '**/*.env'
-    ]
-  },
-  {
     languageOptions: {
       ecmaVersion: 'latest',
-      sourceType: 'commonjs',
+      sourceType: 'module',
       parserOptions: {
         projectService: true,
         tsconfigRootDir: import.meta.dirname
       },
       globals: { ...globals.node, ...globals.vitest, ...globals.es2025 }
-    }
-  },
-  {
-    rules: {
-      'prettier/prettier': 'error',
-      '@typescript-eslint/interface-name-prefix': 'off',
-      '@typescript-eslint/explicit-function-return-type': 'off',
-      '@typescript-eslint/explicit-module-boundary-types': 'off',
-      '@typescript-eslint/no-explicit-any': 'off',
-      '@typescript-eslint/require-await': 'error',
-      '@typescript-eslint/no-unused-vars': 'warn',
-
-      'no-restricted-imports': [
-        'error',
-        {
-          patterns: ['.*']
-        }
-      ],
-
-      '@typescript-eslint/naming-convention': [
-        'error',
-        {
-          selector: [
-            'classProperty',
-            'objectLiteralProperty',
-            'typeProperty',
-            'classMethod',
-            'objectLiteralMethod',
-            'typeMethod',
-            'accessor',
-            'enumMember',
-            'property'
-          ],
-          format: null,
-          modifiers: ['requiresQuotes']
-        },
-        {
-          selector: 'default',
-          format: ['camelCase']
-        },
-        {
-          selector: 'import',
-          format: ['camelCase', 'snake_case', 'StrictPascalCase', 'UPPER_CASE']
-        },
-        {
-          selector: 'variable',
-          format: ['camelCase', 'snake_case', 'StrictPascalCase', 'UPPER_CASE']
-        },
-        {
-          selector: 'function',
-          format: ['camelCase', 'StrictPascalCase']
-        },
-        {
-          selector: 'parameter',
-          format: ['camelCase'],
-          leadingUnderscore: 'allow'
-        },
-        {
-          selector: 'property',
-          format: ['camelCase', 'snake_case', 'StrictPascalCase']
-        },
-        {
-          selector: 'typeLike',
-          format: ['PascalCase']
-        },
-        {
-          selector: 'enumMember',
-          format: ['UPPER_CASE']
-        },
-        {
-          selector: ['property', 'parameter'],
-          format: null,
-          modifiers: ['unused']
-        },
-        {
-          selector: 'objectLiteralProperty',
-          format: ['UPPER_CASE', 'camelCase', 'snake_case', 'StrictPascalCase']
-        }
-      ]
     }
   }
 );
