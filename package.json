@@ -80,7 +80,8 @@
     "test:watch": "vitest",
     "test:ui": "vitest --ui",
     "test:allure": "allure generate --clean",
-    "test:allure:report": "allure serve"
+    "test:allure:report": "allure serve",
+    "commit": "cz"
   },
   "version": "1.0.0"
 }
