@@ -1,5 +1,5 @@
 {
-  "extends": "@tsconfig/node22/tsconfig.json",
+  "extends": "@tsconfig/node24/tsconfig.json",
   "compilerOptions": {
     "declaration": true,
     "removeComments": true,
@@ -14,10 +14,12 @@
     "noImplicitAny": true,
     "strictBindCallApply": true,
     "noFallthroughCasesInSwitch": true,
+    "ignoreDeprecations": "6.0",
+    "types": ["node", "jest"],
     "paths": {
       "@/*": ["./src/*"],
       "@test/*": ["./test/*"]
     }
   },
-  "include": ["src/**/*", "test/**/*", "eslint.config.mjs", "prisma/seeds/**/*"]
+  "include": ["src/**/*", "test/**/*", "eslint.config.mjs", "prisma.config.ts", "prisma/seeds/**/*"]
 }

@@ -33,7 +33,7 @@ export class HealthController {
       () => this.memory.checkRSS('memory_rss', Math.pow(1024, 3) * 2),
       () => this.prismaHealth.pingCheck('postgres', this.prisma),
       () =>
-        this.http.responseCheck<{ status: string }>(
+        this.http.responseCheck<{ status: string }, string>(
           'some external app or service',
           'https://exemple.com/health',
           (res) => res.status === HttpStatus.OK.valueOf() && res.data.status === 'UP'
