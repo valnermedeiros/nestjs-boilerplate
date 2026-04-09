@@ -1,30 +1,50 @@
-FROM node:22.12.0-alpine AS base
+# ---- base: node + pnpm via corepack ----
+FROM node:24-alpine AS base
 
-ARG PNPM_HOME="/pnpm"
-ARG PATH="$PNPM_HOME:$PATH"
-ARG HUSKY="0"
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+ENV HUSKY=0
+ENV CI=true
+
+RUN corepack enable && corepack prepare pnpm@10.33.0 --activate
 
 WORKDIR /app
+
+# ---- deps: install all dependencies (cached) ----
+FROM base AS deps
 COPY package.json pnpm-lock.yaml ./
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store \
+    pnpm install --frozen-lockfile --ignore-scripts
 
-RUN apk add --no-cache curl && \
-  export PNPM_VERSION=$(npm pkg get packageManager | tr -d '"') && \
-  corepack enable && \
-  corepack prepare "$PNPM_VERSION" --activate
-
-FROM base AS dependencies
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm i --frozen-lockfile --ignore-scripts
-
+# ---- build: compile TypeScript ----
 FROM base AS build
+COPY --from=deps /app/node_modules ./node_modules
 COPY . .
-COPY --from=dependencies /app/node_modules ./node_modules
-RUN pnpm build && \
-  pnpm prune --prod --ignore-scripts
+RUN pnpm build
 
-FROM base AS deploy
-COPY --from=base /app/package.json /app/pnpm-lock.yaml ./
-COPY --from=build /app/node_modules ./node_modules
-COPY --from=build /app/dist ./dist
+# ---- prod-deps: install production dependencies only ----
+FROM base AS prod-deps
+COPY package.json pnpm-lock.yaml ./
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store \
+    pnpm install --frozen-lockfile --ignore-scripts --prod
+
+# ---- deploy: minimal final image ----
+FROM node:24-alpine AS deploy
+
+RUN addgroup --system --gid 1001 nodejs \
+ && adduser --system --uid 1001 --ingroup nodejs nestjs
+
+WORKDIR /app
+
+COPY --from=prod-deps --chown=nestjs:nodejs /app/node_modules ./node_modules
+COPY --from=build --chown=nestjs:nodejs /app/dist ./dist
+COPY --chown=nestjs:nodejs package.json ./
+
+USER nestjs
 
 EXPOSE 3000
-CMD [ "pnpm", "start:prod" ]
+
+HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
+  CMD wget -qO- http://localhost:3000/health || exit 1
+
+CMD ["node", "dist/main"]
