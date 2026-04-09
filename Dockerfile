@@ -18,8 +18,7 @@ RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm i --frozen-lockfile --ign
 FROM base AS build
 COPY . .
 COPY --from=dependencies /app/node_modules ./node_modules
-RUN pnpm prisma generate && \
-  pnpm build && \
+RUN pnpm build && \
   pnpm prune --prod --ignore-scripts
 
 FROM base AS deploy

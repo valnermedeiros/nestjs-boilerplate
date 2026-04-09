@@ -1,4 +1,3 @@
-import { PrismaService } from '@/prisma/prisma.service';
 import { Controller, Get, HttpStatus } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { ApiTags } from '@nestjs/swagger';
@@ -7,8 +6,7 @@ import {
   HealthCheck,
   HealthCheckService,
   HttpHealthIndicator,
-  MemoryHealthIndicator,
-  PrismaHealthIndicator
+  MemoryHealthIndicator
 } from '@nestjs/terminus';
 
 @ApiTags('health')
@@ -19,9 +17,7 @@ export class HealthController {
     private readonly health: HealthCheckService,
     private readonly http: HttpHealthIndicator,
     private readonly disk: DiskHealthIndicator,
-    private readonly memory: MemoryHealthIndicator,
-    private readonly prismaHealth: PrismaHealthIndicator,
-    private readonly prisma: PrismaService
+    private readonly memory: MemoryHealthIndicator
   ) {}
 
   @Get()
@@ -31,7 +27,6 @@ export class HealthController {
       () => this.disk.checkStorage('storage', { thresholdPercent: 0.5, path: '/' }),
       () => this.memory.checkHeap('memory_heap', Math.pow(1024, 3) * 2),
       () => this.memory.checkRSS('memory_rss', Math.pow(1024, 3) * 2),
-      () => this.prismaHealth.pingCheck('postgres', this.prisma),
       () =>
         this.http.responseCheck<{ status: string }, string>(
           'some external app or service',

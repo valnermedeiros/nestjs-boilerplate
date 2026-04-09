@@ -1,6 +1,5 @@
 import { validateEnvironmentVariables } from '@/common/helper/env.validation';
 import { HealthController } from '@/health/health.controller';
-import { PrismaModule } from '@/prisma/prisma.module';
 import { HttpModule } from '@nestjs/axios';
 import { ConfigModule } from '@nestjs/config';
 import { TerminusModule } from '@nestjs/terminus';
@@ -18,8 +17,7 @@ describe('HealthController', () => {
           envFilePath: ['../../.env.test']
         }),
         TerminusModule,
-        HttpModule,
-        PrismaModule
+        HttpModule
       ],
       controllers: [HealthController]
     }).compile();

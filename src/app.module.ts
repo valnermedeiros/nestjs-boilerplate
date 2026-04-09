@@ -3,7 +3,6 @@ import { AppService } from '@/app.service';
 import { CommonModule } from '@/common/common.module';
 import { validateEnvironmentVariables } from '@/common/helper/env.validation';
 import { HealthModule } from '@/health/health.module';
-import { PrismaModule } from '@/prisma/prisma.module';
 import { Module, RequestMethod } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { ScheduleModule } from '@nestjs/schedule';
@@ -27,8 +26,7 @@ import { env } from 'process';
     }),
     ScheduleModule.forRoot(),
     CommonModule,
-    HealthModule,
-    PrismaModule
+    HealthModule
   ],
   controllers: [AppController],
   providers: [AppService]

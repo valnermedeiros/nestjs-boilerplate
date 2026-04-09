@@ -1,14 +1,5 @@
 import { Expose, plainToInstance, Type } from 'class-transformer';
-import {
-  IsDefined,
-  IsEnum,
-  IsOptional,
-  IsString,
-  Matches,
-  Max,
-  Min,
-  validateSync
-} from 'class-validator';
+import { IsEnum, IsOptional, Max, Min, validateSync } from 'class-validator';
 import 'reflect-metadata';
 
 enum Environment {
@@ -32,14 +23,6 @@ class EnvironmentVariables {
   @Max(65535)
   port!: number;
 
-  @Expose({ name: 'DATABASE_URL' })
-  @IsString()
-  @Matches(
-    /^(postgresql|mysql|mariadb|sqlite|sqlserver|mongodb):\/\/(?:([\w._-]+)(?::([\w._-]+))?@)?([\w.-]+)(?::(\d+))?(?:\/([\w._-]+))?(?:\?(.*))?$/
-  )
-  @IsDefined()
-  databaseUrl!: string;
-
   @Expose({ name: 'SWAGGER_DOCS' })
   @IsOptional()
   @Type(() => Boolean)
@@ -50,8 +33,6 @@ class EnvironmentVariables {
     this.port = this.port || 3000;
     this.swaggerDocs = this.swaggerDocs || false;
     this.nodeEnv = this.nodeEnv || Environment.DEVELOPMENT;
-    this.databaseUrl =
-      this.databaseUrl || 'postgresql://postgres:postgres@localhost:5433/postgres?schema=public';
   }
 }
 
