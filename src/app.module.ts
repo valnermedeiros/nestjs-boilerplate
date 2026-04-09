@@ -1,8 +1,8 @@
-import { AppController } from '@/app.controller';
-import { AppService } from '@/app.service';
-import { CommonModule } from '@/common/common.module';
-import { validateEnvironmentVariables } from '@/common/helper/env.validation';
-import { HealthModule } from '@/health/health.module';
+import { AppController } from '@src/app.controller';
+import { AppService } from '@src/app.service';
+import { CommonModule } from '@src/common/common.module';
+import { validateEnvironmentVariables } from '@src/common/helper/env.validation';
+import { HealthModule } from '@src/health/health.module';
 import { Module, RequestMethod } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { ScheduleModule } from '@nestjs/schedule';

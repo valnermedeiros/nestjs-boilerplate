@@ -10,8 +10,8 @@
 
 - TypeScript strict mode is on (`noImplicitAny`, `strictNullChecks`, `strictBindCallApply`)
 - Never use `any` — use `unknown` and narrow with type guards
-- Path aliases: `@/` maps to `src/`, `@test/` maps to `test/`
-- No relative imports — always use `@/` or `@test/` aliases (enforced by `no-restricted-imports`)
+- Path aliases: `@src/` maps to `src/`, `@test/` maps to `test/`
+- No relative imports — always use `@src/` or `@test/` aliases (enforced by `no-restricted-imports`)
 
 ## NestJS Conventions
 

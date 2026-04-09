@@ -1,6 +1,6 @@
-import { AppModule } from '@/app.module';
-import { PORT, SWAGGER_DOCS } from '@/common/constants/config.const';
-import { GlobalExceptionFilter } from '@/filters/exception/global-exception.filter';
+import { AppModule } from '@src/app.module';
+import { PORT, SWAGGER_DOCS } from '@src/common/constants/config.const';
+import { GlobalExceptionFilter } from '@src/filters/exception/global-exception.filter';
 import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { HttpAdapterHost, NestFactory } from '@nestjs/core';

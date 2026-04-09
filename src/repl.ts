@@ -1,4 +1,4 @@
-import { AppModule } from '@/app.module';
+import { AppModule } from '@src/app.module';
 import { repl } from '@nestjs/core';
 
 async function bootstrap() {

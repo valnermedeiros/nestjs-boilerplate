@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import { AppController } from '@/app.controller';
-import { AppService } from '@/app.service';
+import { AppController } from '@src/app.controller';
+import { AppService } from '@src/app.service';
 import { step } from '@test/bdd.utils';
 
 describe('AppController', () => {

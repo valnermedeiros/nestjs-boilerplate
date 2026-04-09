@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import { validateEnvironmentVariables } from '@/common/helper/env.validation';
-import { HealthController } from '@/health/health.controller';
+import { validateEnvironmentVariables } from '@src/common/helper/env.validation';
+import { HealthController } from '@src/health/health.controller';
 import { HttpModule } from '@nestjs/axios';
 import { ConfigModule } from '@nestjs/config';
 import { TerminusModule } from '@nestjs/terminus';
