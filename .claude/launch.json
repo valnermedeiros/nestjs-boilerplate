@@ -1,0 +1,23 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "NestJS Dev Server",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["start:dev"],
+      "port": 3000
+    },
+    {
+      "name": "NestJS Debug Server",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["start:debug"],
+      "port": 3000
+    },
+    {
+      "name": "Vitest UI",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["test:ui"],
+      "port": 51204
+    }
+  ]
+}
